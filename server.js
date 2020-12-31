@@ -17,7 +17,7 @@ http.createServer((request, response) => {
 
     //checks the requested URL, directs accordingly
     if (q.pathname.includes('documentation')) {
-        filePath = (_dirname + '/documentation.html');
+        filePath = ('../movie_api/' + '/documentation.html');
     } else {
         filePath = 'index.html';
     }
