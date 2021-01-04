@@ -1,10 +1,13 @@
-const express = require('express');
-    morgan = require('morgan');
+const express = require('express'),
+    morgan = require('morgan'),
+    //cross origin resource sharing - enables other work to reference this backend, including my API
+    cors = require('cors');
 
 const app = express();
  
 //logs all requests using Morgan, prints in terminal.
 app.use(morgan('common'));
+app.use(cors());
 
 //json list of movies
 let favMovies = [
@@ -67,6 +70,8 @@ app.get('/movies', (req, res) =>{
 
 //GET route located at default endpoint / that returns text
 app.get('/', (req, res) => {
+    // throw new Error('I broke');
+    console.log(req);
     res.send('Welcome to myFlix app!');
 });
 
