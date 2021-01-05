@@ -24,36 +24,156 @@
                 <tr>
                     <th>Business Logic/What does it do?</th>
                     <th>Endpoint URL</th>
-                    <th>Method Type</th>
                     <th>Query Parameters</th>
-                    <th>Request Data Format</th>
-                    <th>Example Request</th>
-                    <th>Response Data Format</th>
-                    <th>Example Response</th>
+                    <th>Method Type</th>
+                    <th class="header-requestFormat">Request Data Format</th>
+                    <th class="header-exampleRequest">Example Request</th>
+                    <th class="header-responseFormat">Response Data Format</th>
+                    <th class="header-exampleResponse">Example Response</th>
                 </tr>
                 <tr>
-                    <td>Get List of Students</td>
-                    <td>/students</td>
-                    <td>GET</td>
-                    <td>???</td>
-                    <td>None</td>
+                    <td>Get List of All Movies</td>
+                    <td>/movies</td>
                     <td>N/A</td>
-                    <td>A JSON object holding data about all students</td>
-                    <td>Format for each should be: ....</td>
+                    <td>GET</td>
+                    <td>Nothing in body of request</td>
+                    <td>N/A</td>
+                    <td>A JSON object holding data about all movies</td>
+                    <td>See "Get data about single movie by title" for each item format.</td>
                 </tr>
                 <tr>
-                    <td>Example 2</td>
-                    <td>Sample</td>
-                    <td>Sample</td>
-                    <td>Sample</td>
-                    <td>Sample</td>
-                    <td>Sample</td>
-                    <td>Sample</td>
-                    <td>Sample</td>
+                    <td>Get data about single movie by title</td>
+                    <td>/movies</td>
+                    <td>/:title</td>
+                    <td>GET</td>
+                    <td>Nothing in body of request</td>
+                    <td>N/A</td>
+                    <td>A JSON object holding data about a single movie, also containing an ID.</td>
+                    <td>
+                        <span class="curlyBrace">{</span>
+                        <span class="id">ID: 1,</span>
+                        <span class="name">title: 'Arrival',</span>
+                        <span class="director">director: 'Dennis Villeneuve',</span>
+                        <span class="year">year: 2016,</span>
+                        <span class="genre">genre: 'Science Fiction', 'Drama'</span>
+                        <span class="description">description: 'A linguist works with the military to communicate with alien lifeforms after
+                            twelve mysterious spacecrafts appear around the world.',</span>
+                        <span class="imgURL">image URL: 'https://www.imdb.com/title/tt2543164/mediaviewer/rm3938516992/'</span>
+                        <span class="curly-brace">}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Get data about genre by name/title (Ex: "Thriller")</td>
+                    <td>/genres</td>
+                    <td>/:genre</td>
+                    <td>GET</td>
+                    <td>Nothing in body of request</td>
+                    <td>N/A</td>
+                    <td>A JSON object holding description of genre.</td>
+                    <td>
+                        <span class="curlyBrace">{</span> 
+                        <span class="genre-descrption">Thrillers: 'This genre of movies are characterized and defined by the moods they elicit, giving viewers heightened feelings of suspense,
+                        excitement, surprise, anticipation and anxiety.'</span>
+                        <span class="curlyBrace">}</span>
+                 </td>
+                </tr>
+                <tr>
+                    <td>Get data about a director</td>
+                    <td>/directors</td>
+                    <td>/:director</td>
+                    <td>GET</td>
+                    <td>Nothing in body of request</td>
+                    <td>N/A</td>
+                    <td>A JSON object holding data about a single director.</td>
+                    <td>
+                        <span class="curlyBrace">{</span>
+                        <span class="id">ID: 2,</span>
+                        <span class="director">director: 'Dennis Villeneuve',</span>
+                        <span class="director-bio">biography: 'Denis Villeneuve OC CQ is a French Canadian film director, producer, and screenwriter.
+                        He is a four-time recipient of the Canadian Screen Award for Best Direction...etc.'</span>
+                        <span class="director-DOB">birthdate: 'October 3, 1967'</span>
+                        <span class="curly-brace">}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Allow new users to register</td>
+                    <td>/users</td>
+                    <td>N/A</td>
+                    <td>POST</td>
+                    <td>A JSON object holding data about the user to add.</td>
+                    <td>
+                        <span class="curlyBrace">{</span>
+                        <span class="user-name">name: 'Kelsey Flynn',</span>
+                        <span class="user-birthday">birthday: April 7, 1994 </span>
+                        <span class="curly-brace">}</span>
+                    </td>                    
+                    <td>A JSON object holding data about the user that was added, including a generated ID#.</td>
+                    <td>
+                        <span class="curlyBrace">{</span>
+                        <span class="id">ID: 27,</span>
+                        <span class="user-name">username: 'KSFlynn007',</span>
+                        <span class="user-birthday">birthday: April 7, 1994 </span>
+                        <span class="curly-brace">}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Allow users to update their user info(username)</td>
+                    <td>/users</td>
+                    <td>/:ID</td>
+                    <td>PUT</td>
+                    <td>Nothing in body of request</td>
+                    <td>N/A</td>
+                    <td>A JSON obejct holding updated data about user.</td>
+                    <td>
+                        <span class="curlyBrace">{</span>
+                        <span class="id">ID: 27,</span>
+                        <span class="user-name">username: 'SciFiFan007',</span>
+                        <span class="user-birthday">birthday: April 7, 1994 </span>
+                        <span class="curly-brace">}</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Allow users to add a movie to their favorite list</td>
+                    <td>/users</td>
+                    <td>/:ID/movies</td>
+                    <td>POST</td>
+                    <td>A JSON object holding data about the movie to add to favorites list.</td>
+                    <td>
+                        <span class="curlyBrace">{</span>
+                        <span class="name">title: 'Spotlight',</span>
+                        <span class="director">director: 'Tom McCarthy',</span>
+                        <span class="year">year: 2015,</span>
+                        <span class="genre">genre: 'Biography', 'Crime', 'Drama'</span>
+                        <span class="description">description: 'The true story of how the Boston Globe uncovered the massive scandal of child 
+                        molestation and cover-up within the local Catholic Archdiocese, shaking the entire Catholic Church to its core.',</span>
+                        <span class="imgURL">image URL: 'https://www.imdb.com/title/tt1895587/mediaviewer/rm899739136/'</span>
+                        <span class="curly-brace">}</span>
+                    </td>
+                    <td>A text message confirming addition of movie to favorites list.</td>
+                    <td>'The movie 'Spotlight' has been added to your favorites.'</td>
+                </tr>
+                <tr>
+                    <td>Allow users to remove a movie from their list of favorites</td>
+                    <td>/users</td>
+                    <td>/:ID/movies</td>
+                    <td>DELETE</td>
+                    <td>Nothing in body of request</td>
+                    <td>N/A</td>
+                    <td>A text message confirming removal of movie from favorites list.</td>
+                    <td>'The movie ______ has been removed from your favorites.'</td>
+                </tr>
+                <tr>
+                    <td>Allow users to deregister</td>
+                    <td>/users</td>
+                    <td>/:ID</td>
+                    <td>DELETE</td>
+                    <td>Nothing in body of request</td>
+                    <td>N/A</td>
+                    <td>A text message confirming deregistration of user.</td>
+                    <td>'Thank you, your account has been removed.'</td>
                 </tr>
             </table>
         </div>
     </main>
-    
 </body>
 </html>

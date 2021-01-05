@@ -14,7 +14,7 @@ let favMovies = [
     {
         title: 'Arrival',
         director: 'Denis Villeneuve',
-        year: 2016
+        year: 2016,
     },
     {
         title: 'Spotlight',
