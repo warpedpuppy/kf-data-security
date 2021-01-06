@@ -150,7 +150,6 @@ app.use(express.static('public'));
 
 app.get('/movies', (req, res) => {
     res.json(favMovies);
-    res.send('Successful GET request returning data on all movies.')
 });
 
 //get data about single movie by title
@@ -160,25 +159,53 @@ app.get('/movies/:title', (req, res) =>{
 });
 
 //get data about genre by title "thriller"
-app.get('/genres/:genre', (req, res) => {
-    res.json(favMovies.find((movie) =>
-    {return movie.genres === req.params.genres});
-})
+app.get('/movies/genres/:genre', (req, res) => {
+  res.send('Successful GET request returning data on genre: ' + req.params.genre);
+});
 
 //get data about a director
-app.get('/director/:director', (req, res) => {
-    res.json(favMovies);
+app.get('/movies/directors/:director', (req, res) => {
+    res.send('Successful GET request returning information on director: ' + req.params.director);
+});
+
+//allow new users to register SIMPLE
+app.post('/users', (req, res) => {
+    res.send('Successfully added new user.');
 })
 
-//allow new users to register
+//allow new users to register FULL:
+// app.post('/users', (req, res) => {
+//     let newUser = req.body;
+
+//     if(!newUser.username) {
+//         const message = "Missing a username in request body.";
+//         res.status(400).send(message);
+//     } else {
+//         newUser.id = uuid.v4();
+//         // WOULD NEED A PUSH LINE HERE, SUCH AS: users.push(newUser);
+//         res.status(201).send(newUser);
+//     }
+// });
 
 //allow users to update their user info(username)
+app.put('/users/:id', (req, res) => {
+    res.send('Updated user ID# ' + req.params.id + '\'s username.')
+})
 
 //allow users to add a movie to their favorite list
+app.post('/users/:id/movies/:movieID', (req, res) => {
+    res.send('Successful POST request, adding movie ID ' + req.params.movieID + ' to favorites list.')
+});
 
 //allow users to remove a movie from their favorite list
+app.delete('/users/:id/movies/:movieID', (req, res) => {
+    res.send('Successfully DELETED movie ID# ' + req.params.movieID + ' from favorites list.');
+});
 
 //allow users to deregister
+app.delete('/users/:id', (req, res) => {
+    res.send('Thank you, your account with ID# ' + req.params.id + ' has been removed.')
+})
 
 //middleware error handling always goes LAST in app.use chain
 app.use((err, req, res, next) => {
