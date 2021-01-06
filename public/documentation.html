@@ -51,7 +51,7 @@
                     <td>A JSON object holding data about a single movie, also containing an ID.</td>
                     <td>
                         <span class="curlyBrace">{</span>
-                        <span class="id">ID: 1,</span>
+                        <span class="id">id: 1,</span>
                         <span class="name">title: 'Arrival',</span>
                         <span class="director">director: 'Dennis Villeneuve',</span>
                         <span class="year">year: 2016,</span>
@@ -64,7 +64,7 @@
                 </tr>
                 <tr>
                     <td>Get data about genre by name/title (Ex: "Thriller")</td>
-                    <td>/genres</td>
+                    <td>/movies/genres</td>
                     <td>/:genre</td>
                     <td>GET</td>
                     <td>Nothing in body of request</td>
@@ -79,7 +79,7 @@
                 </tr>
                 <tr>
                     <td>Get data about a director</td>
-                    <td>/directors</td>
+                    <td>/movies/directors</td>
                     <td>/:director</td>
                     <td>GET</td>
                     <td>Nothing in body of request</td>
@@ -87,7 +87,7 @@
                     <td>A JSON object holding data about a single director.</td>
                     <td>
                         <span class="curlyBrace">{</span>
-                        <span class="id">ID: 2,</span>
+                        <span class="id">id: 2,</span>
                         <span class="director">director: 'Dennis Villeneuve',</span>
                         <span class="director-bio">biography: 'Denis Villeneuve OC CQ is a French Canadian film director, producer, and screenwriter.
                         He is a four-time recipient of the Canadian Screen Award for Best Direction...etc.'</span>
@@ -103,14 +103,14 @@
                     <td>A JSON object holding data about the user to add.</td>
                     <td>
                         <span class="curlyBrace">{</span>
-                        <span class="user-name">name: 'Kelsey Flynn',</span>
+                        <span class="user-name">username: 'KSFlynn007',</span>
                         <span class="user-birthday">birthday: April 7, 1994 </span>
                         <span class="curly-brace">}</span>
                     </td>                    
                     <td>A JSON object holding data about the user that was added, including a generated ID#.</td>
                     <td>
                         <span class="curlyBrace">{</span>
-                        <span class="id">ID: 27,</span>
+                        <span class="id">id: 27,</span>
                         <span class="user-name">username: 'KSFlynn007',</span>
                         <span class="user-birthday">birthday: April 7, 1994 </span>
                         <span class="curly-brace">}</span>
@@ -119,14 +119,14 @@
                 <tr>
                     <td>Allow users to update their user info(username)</td>
                     <td>/users</td>
-                    <td>/:ID</td>
+                    <td>/:id</td>
                     <td>PUT</td>
                     <td>Nothing in body of request</td>
                     <td>N/A</td>
                     <td>A JSON obejct holding updated data about user.</td>
                     <td>
                         <span class="curlyBrace">{</span>
-                        <span class="id">ID: 27,</span>
+                        <span class="id">id: 27,</span>
                         <span class="user-name">username: 'SciFiFan007',</span>
                         <span class="user-birthday">birthday: April 7, 1994 </span>
                         <span class="curly-brace">}</span>
@@ -134,8 +134,8 @@
                 </tr>
                 <tr>
                     <td>Allow users to add a movie to their favorite list</td>
-                    <td>/users</td>
-                    <td>/:ID/movies</td>
+                    <td>/users/:id/movies</td>
+                    <td>/:movieID</td>
                     <td>POST</td>
                     <td>A JSON object holding data about the movie to add to favorites list.</td>
                     <td>
@@ -154,8 +154,8 @@
                 </tr>
                 <tr>
                     <td>Allow users to remove a movie from their list of favorites</td>
-                    <td>/users</td>
-                    <td>/:ID/movies</td>
+                    <td>/users/:id/movies</td>
+                    <td>/:moviesID</td>
                     <td>DELETE</td>
                     <td>Nothing in body of request</td>
                     <td>N/A</td>
@@ -165,7 +165,7 @@
                 <tr>
                     <td>Allow users to deregister</td>
                     <td>/users</td>
-                    <td>/:ID</td>
+                    <td>/:id</td>
                     <td>DELETE</td>
                     <td>Nothing in body of request</td>
                     <td>N/A</td>
