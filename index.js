@@ -18,10 +18,7 @@ let favMovies = [
         title: 'Arrival',
         director: 'Denis Villeneuve',
         year: 2016,
-        genres: {
-            'primary': 'Science Fiction',
-            'secondary': 'Drama'
-        },
+        genres: 'Drama',
         description: 'A linguist works with the military to communicate with alien lifeforms after twelve mysterious spacecrafts appear around the world.',
         imageURL: 'https://www.imdb.com/title/tt2543164/mediaviewer/rm3938516992/',
         featured: true
@@ -30,10 +27,7 @@ let favMovies = [
         title: 'Spotlight',
         director: 'Tom McCarthy',
         year: 2015,
-        genres: {
-            'primary': 'Biography',
-            'secondary': 'Crime'
-        },
+        genres: 'Biography',
         description: 'The true story of how the Boston Globe uncovered the massive scandal of child molestation and cover-up within the local Catholic Archdiocese, shaking the entire Catholic Church to its core.',
         imageURL: 'https://www.imdb.com/title/tt1895587/mediaviewer/rm899739136/',
         featured: true
@@ -42,10 +36,7 @@ let favMovies = [
         title: 'The Martian',
         director: 'Ridley Scott',
         year: 2015,
-        genres:{
-            'primary': 'Science Fiction',
-            'secondary': 'Adventure'
-        },
+        genres: 'Science Fiction',
         description: 'An astronaut becomes stranded on Mars after his team assume him dead, and must rely on his ingenuity to find a way to signal to Earth that he is alive.',
         imageURL: 'https://www.imdb.com/title/tt3659388/mediaviewer/rm1391324160/',
         featured: false
@@ -54,10 +45,7 @@ let favMovies = [
         title: 'Catch Me If You Can',
         director: 'Steven Spielberg',
         year: 2002,
-        genres: {
-            'primary': 'Biography',
-            'secondary': 'Crime'
-        },
+        genres: 'Crime', 
         description: 'Barely 21 yet, Frank is a skilled forger who has passed as a doctor, lawyer and pilot. FBI agent Carl, becomes obsessed with tracking down the con man. But Frank not only eludes capture, he revels in the pursuit.',
         imageURL: 'https://www.imdb.com/title/tt0264464/mediaviewer/rm3911489536',
         featured: false
@@ -66,10 +54,7 @@ let favMovies = [
         title: 'The Ninth Gate',
         director: 'Roman Polanski',
         year: 1999,
-        genres: {
-            'primary': 'Mystery',
-            'secondary': 'Thriller'
-        },
+        genres: 'Mystery',
         description: 'A rare book dealer, while seeking out the last two copies of a demon text, gets drawn into a conspiracy with supernatural overtones.',
         imageURL: 'https://www.imdb.com/title/tt0142688/mediaviewer/rm3119152640/',
         featured: false
@@ -78,10 +63,7 @@ let favMovies = [
         title: 'Blackfish',
         director: 'Gabriela Cowperthwaite',
         year: 2013,
-        genres: {
-            'primary': 'Documentary',
-            'secondary': 'Biography'
-        },
+        genres: 'Documentary',
         description: 'A documentary following the controversial captivity of killer whales, and its dangers for both humans and whales.',
         imageURL: 'https://www.imdb.com/title/tt2545118/mediaviewer/rm4277380096/',
         featured: true
@@ -90,10 +72,7 @@ let favMovies = [
         title: 'Annihilation',
         director: 'Alex Garland',
         year: 2018,
-        genres: {
-            'primary': 'Science Fiction',
-            'secondary': 'Horror'
-        },
+        genres: 'Science Fiction',
         description: 'A biologist signs up for a dangerous, secret expedition into a mysterious zone where the laws of nature don\'t apply.',
         imageURL: 'https://www.imdb.com/title/tt2798920/mediaviewer/rm4064891392/',
         featured: true
@@ -102,10 +81,7 @@ let favMovies = [
         title: 'Ex Machina',
         director: 'Alex Garland',
         year: 2014,
-        genres: {
-            'primary': 'Science Fiction',
-            'secondary': 'Thriller'
-        },
+        genres: 'Thriller',
         description: 'A young programmer is selected to participate in a ground-breaking experiment in synthetic intelligence by evaluating the human qualities of a highly advanced humanoid A.I.',
         imageURL: 'https://www.imdb.com/title/tt0470752/mediaviewer/rm848491264/',
         featured: true
@@ -114,10 +90,7 @@ let favMovies = [
         title: 'Interstellar',
         director: 'Christopher Nolan',
         year: 2014,
-        genres: {
-            'primary': 'Adventure',
-            'secondary': 'Science Fiction'
-        },
+        genres: 'Science Fiction',
         description: 'A team of explorers travel through a wormhole in space in an attempt to ensure humanity\'s survival.',
         imageURL: 'https://www.imdb.com/title/tt0816692/mediaviewer/rm4043724800/',
         featured: false
@@ -126,10 +99,7 @@ let favMovies = [
         title: 'Spirited Away',
         director: 'Hayao Miyazaki',
         year: 2001,
-        genres: {
-            'primary': 'Animation',
-            'secondary': 'Fantasy'
-        },
+        genres: 'Animation',
         description: 'During her family\'s move to the suburbs, a sullen 10-year-old girl wanders into a world ruled by gods, witches, and spirits, and where humans are changed into beasts.',
         imageURL: 'https://www.imdb.com/title/tt0245429/mediaviewer/rm4207852801/',
         featured: false
@@ -181,9 +151,7 @@ app.post('/users', (req, res) => {
 //         const message = "Missing a username in request body.";
 //         res.status(400).send(message);
 //     } else {
-//         newUser.id = uuid.v4();
-//         // WOULD NEED A PUSH LINE HERE, SUCH AS: users.push(newUser);
-//         res.status(201).send(newUser);
+//         res.status(201).send('Successfully added new user.')
 //     }
 // });
 
