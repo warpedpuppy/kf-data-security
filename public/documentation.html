@@ -44,7 +44,7 @@
                 <tr>
                     <td>Get data about single movie by title</td>
                     <td>/movies</td>
-                    <td>/:title</td>
+                    <td>/:Title</td>
                     <td>GET</td>
                     <td>Nothing in body of request</td>
                     <td>N/A</td>
@@ -65,7 +65,7 @@
                 <tr>
                     <td>Get data about genre by name/title (Ex: "Thriller")</td>
                     <td>/movies/genres</td>
-                    <td>/:genre</td>
+                    <td>/:Name</td>
                     <td>GET</td>
                     <td>Nothing in body of request</td>
                     <td>N/A</td>
@@ -80,7 +80,7 @@
                 <tr>
                     <td>Get data about a director</td>
                     <td>/movies/directors</td>
-                    <td>/:director</td>
+                    <td>/:Name</td>
                     <td>GET</td>
                     <td>Nothing in body of request</td>
                     <td>N/A</td>
@@ -134,8 +134,8 @@
                 </tr>
                 <tr>
                     <td>Allow users to add a movie to their favorite list</td>
-                    <td>/users/:id/movies</td>
-                    <td>/:movieID</td>
+                    <td>/users/:id</td>
+                    <td>/:FavoriteMovie</td>
                     <td>POST</td>
                     <td>A JSON object holding data about the movie to add to favorites list.</td>
                     <td>
@@ -154,8 +154,8 @@
                 </tr>
                 <tr>
                     <td>Allow users to remove a movie from their list of favorites</td>
-                    <td>/users/:id/movies</td>
-                    <td>/:moviesID</td>
+                    <td>/users/:id</td>
+                    <td>/:FavoriteMovie</td>
                     <td>DELETE</td>
                     <td>Nothing in body of request</td>
                     <td>N/A</td>
