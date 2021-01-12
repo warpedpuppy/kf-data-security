@@ -29,9 +29,11 @@ tr:nth-child(even) {
 .genre,
 .description,
 .imgURL,
+.director-name,
 .director-bio,
-.director-DOB,
+.director-birthdate,
 .user-name,
-.user-birthday {
+.user-birthday,
+.user-favorites {
   display: block;
 }
