@@ -154,7 +154,7 @@ app.put('/users/:Username', (req, res) => {
 });
 
 //allow users to add a movie to their favorite list - EXACT SAME CODE AS REMOVE MOVIE, EXCEPT NEEDS $PULL OPERATOR!
-app.post('/users/:Username/Movies/:MovieID', (req, res) => {
+app.post('/users/:Username/FavoriteMovies/:MovieID', (req, res) => {
     Users.findOneAndUpdate({ Username: req.params.Username }, {
         $push: { FavoriteMovies: req.params.MovieID }
     },
@@ -165,12 +165,12 @@ app.post('/users/:Username/Movies/:MovieID', (req, res) => {
             res.status(500).send('Error: ' + error);
         } else {
             res.json(updatedUser);
-        }
+        }   
     });
 });
 
 //allow users to remove a movie from their favorite list
-app.delete('/users/:Username/Movies/:MovieID', (req, res) => {
+app.delete('/users/:Username/FavoriteMovies/:MovieID', (req, res) => {
     Users.findOneAndUpdate({ Username: req.params.Username }, {
         $pull: { FavoriteMovies: req.params.MovieID }
     },
