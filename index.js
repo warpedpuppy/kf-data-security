@@ -3,7 +3,12 @@ const express = require('express'),
     //cross origin resource sharing - enables other work to reference this backend, including my API
     cors = require('cors'),
     bodyParser = require('body-parser'),
-    uuid = require('uuid');
+    uuid = require('uuid'),
+    mongoose = require('mongoose'),
+    Models = require('./models.js'),
+    Users = Models.User,
+    Movies = Models.Movie;
+
 
 const app = express();
  
@@ -12,99 +17,8 @@ app.use(morgan('common'));
 app.use(cors());
 app.use(bodyParser.json());
 
-//json list of movies
-let favMovies = [
-    {
-        title: 'Arrival',
-        director: 'Denis Villeneuve',
-        year: 2016,
-        genres: 'Drama',
-        description: 'A linguist works with the military to communicate with alien lifeforms after twelve mysterious spacecrafts appear around the world.',
-        imageURL: 'https://www.imdb.com/title/tt2543164/mediaviewer/rm3938516992/',
-        featured: true
-    },
-    {
-        title: 'Spotlight',
-        director: 'Tom McCarthy',
-        year: 2015,
-        genres: 'Biography',
-        description: 'The true story of how the Boston Globe uncovered the massive scandal of child molestation and cover-up within the local Catholic Archdiocese, shaking the entire Catholic Church to its core.',
-        imageURL: 'https://www.imdb.com/title/tt1895587/mediaviewer/rm899739136/',
-        featured: true
-    },
-    {
-        title: 'The Martian',
-        director: 'Ridley Scott',
-        year: 2015,
-        genres: 'Science Fiction',
-        description: 'An astronaut becomes stranded on Mars after his team assume him dead, and must rely on his ingenuity to find a way to signal to Earth that he is alive.',
-        imageURL: 'https://www.imdb.com/title/tt3659388/mediaviewer/rm1391324160/',
-        featured: false
-    },
-    {
-        title: 'Catch Me If You Can',
-        director: 'Steven Spielberg',
-        year: 2002,
-        genres: 'Crime', 
-        description: 'Barely 21 yet, Frank is a skilled forger who has passed as a doctor, lawyer and pilot. FBI agent Carl, becomes obsessed with tracking down the con man. But Frank not only eludes capture, he revels in the pursuit.',
-        imageURL: 'https://www.imdb.com/title/tt0264464/mediaviewer/rm3911489536',
-        featured: false
-    },
-    {
-        title: 'The Ninth Gate',
-        director: 'Roman Polanski',
-        year: 1999,
-        genres: 'Mystery',
-        description: 'A rare book dealer, while seeking out the last two copies of a demon text, gets drawn into a conspiracy with supernatural overtones.',
-        imageURL: 'https://www.imdb.com/title/tt0142688/mediaviewer/rm3119152640/',
-        featured: false
-    },
-    {
-        title: 'Blackfish',
-        director: 'Gabriela Cowperthwaite',
-        year: 2013,
-        genres: 'Documentary',
-        description: 'A documentary following the controversial captivity of killer whales, and its dangers for both humans and whales.',
-        imageURL: 'https://www.imdb.com/title/tt2545118/mediaviewer/rm4277380096/',
-        featured: true
-    },
-    {
-        title: 'Annihilation',
-        director: 'Alex Garland',
-        year: 2018,
-        genres: 'Science Fiction',
-        description: 'A biologist signs up for a dangerous, secret expedition into a mysterious zone where the laws of nature don\'t apply.',
-        imageURL: 'https://www.imdb.com/title/tt2798920/mediaviewer/rm4064891392/',
-        featured: true
-    },
-    {
-        title: 'Ex Machina',
-        director: 'Alex Garland',
-        year: 2014,
-        genres: 'Thriller',
-        description: 'A young programmer is selected to participate in a ground-breaking experiment in synthetic intelligence by evaluating the human qualities of a highly advanced humanoid A.I.',
-        imageURL: 'https://www.imdb.com/title/tt0470752/mediaviewer/rm848491264/',
-        featured: true
-    },
-    {
-        title: 'Interstellar',
-        director: 'Christopher Nolan',
-        year: 2014,
-        genres: 'Science Fiction',
-        description: 'A team of explorers travel through a wormhole in space in an attempt to ensure humanity\'s survival.',
-        imageURL: 'https://www.imdb.com/title/tt0816692/mediaviewer/rm4043724800/',
-        featured: false
-    },
-    {
-        title: 'Spirited Away',
-        director: 'Hayao Miyazaki',
-        year: 2001,
-        genres: 'Animation',
-        description: 'During her family\'s move to the suburbs, a sullen 10-year-old girl wanders into a world ruled by gods, witches, and spirits, and where humans are changed into beasts.',
-        imageURL: 'https://www.imdb.com/title/tt0245429/mediaviewer/rm4207852801/',
-        featured: false
-    }
-]
+//connects to existing MongoDB database
+mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true});
 
 //GET route located at default endpoint / that returns text
 app.get('/', (req, res) => {
@@ -116,64 +30,176 @@ app.get('/', (req, res) => {
 //serves documentation.html file using express.static, keyword searching in "public" folder
 app.use(express.static('public'));
 
-//express routing syntax, express GET route located at '/movies/ that returns JSON object about favMovies array
-
+//express routing syntax, express GET route located at '/movies/ that returns JSON object about favMovies array 
 app.get('/movies', (req, res) => {
-    res.json(favMovies);
+    Movies.find()
+        .then((movies) => {
+            res.status(201).json(movies);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).send('Error: ' + err);
+        });
 });
 
 //get data about single movie by title
-app.get('/movies/:title', (req, res) =>{
-    res.json(favMovies.find((movie) =>
-    {return movie.title === req.params.title}));
+app.get('/movies/:Title', (req, res) => {
+    Movies.findOne({ Title: req.params.Title })
+        .then((movie) => {
+            res.json(movie);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).send('Error: ' + err);
+        });
 });
 
 //get data about genre by title "thriller"
+// should it be as is or just 
 app.get('/movies/genres/:Name', (req, res) => {
-  res.send('Successful GET request returning data on genre: ' + req.params.genre);
+// This is how it is searched by - by name of GENRE, not name of MOVIE
+    Movies.findOne({ 'Name': req.params.Name })
+// This is what is returned in JSON format, I only need Genre Name + Genre Description, not entire movie
+    .then((movie) => {
+        res.json(movie);
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+    });
 });
 
-//get data about a director
+//get data about a director, same format as above by searching in nested content?
 app.get('/movies/directors/:Name', (req, res) => {
-    res.send('Successful GET request returning information on director: ' + req.params.director);
+    Movies.findOne({ Director: req.params.Director.Name })
+    .then((movie) => {
+        res.json(movie);
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+    });
 });
 
-//allow new users to register SIMPLE
+//allow new users to register
 app.post('/users', (req, res) => {
-    res.send('Successfully added new user.');
-})
+    Users.findOne({ Username: req.body.Username})
+        .then((user) => {
+            if (user) {
+                return res.status(400).send(req.body.Username + ' already exists.');
+            } else {
+                Users
+                    .create({
+                        Username: req.body.Username,
+                        Password: req.body.Password,
+                        Email: req.body.Email,
+                        Birthday: req.body.Birthday
+                    })
+                    .then((user) => {res.status(201).json(user) })
+                .catch((error) => {
+                    console.error(error);
+                    res.status(500).send('Error: ' + error);
+                })
+            }
+        })
+        .catch((error) => {
+            console.error(error);
+            res.status(500).send('Error: ' + error);
+        });
+});
 
-//allow new users to register FULL:
-// app.post('/users', (req, res) => {
-//     let newUser = req.body;
+//get all users
+app.get('/users', (req, res) => {
+    Users.find()
+        .then((users) => {
+            res.status(201).json(users);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).send('Error: ' + err);
+        });
+});
 
-//     if(!newUser.username) {
-//         const message = "Missing a username in request body.";
-//         res.status(400).send(message);
-//     } else {
-//         res.status(201).send('Successfully added new user.')
-//     }
-// });
+//get a user by Username
+app.get('/users/:Username', (req, res) => {
+    Users.findOne({ Username: req.params.Username })
+        .then((user) => {
+            res.json(user);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).send('Error: ' + err);
+        });
+});
 
 //allow users to update their user info(username)
-app.put('/users/:id', (req, res) => {
-    res.send('Updated user ID# ' + req.params.id + '\'s username.')
-})
+app.put('/users/:Username', (req, res) => {
+    Users.findOneAndUpdate({ Username: req.params.Username}, { $set:
+        {
+            Username: req.body.Username,
+            Password: req.body.Password,
+            Email: req.body.Email,
+            Birthday: req.body.Birthday
+        }
+    },
+    { new: true }, //This line makes sure the updated document is returned
+    (err, updatedUser) => {
+        if(err) {
+            console.error(err);
+            res.status(500).send('Error: ' + err);
+        } else {
+            res.json(updatedUser);
+        }
+    });
+});
 
-//allow users to add a movie to their favorite list
-app.post('/users/:id/FavoriteMovies', (req, res) => {
-    res.send('Successful POST request, adding movie ID ' + req.params.movieID + ' to favorites list.')
+//allow users to add a movie to their favorite list - EXACT SAME CODE AS REMOVE MOVIE, EXCEPT NEEDS $PULL OPERATOR!
+app.post('/users/:Username/Movies/:MovieID', (req, res) => {
+    Users.findOneAndUpdate({ Username: req.params.Username }, {
+        $push: { FavoriteMovies: req.params.MovieID }
+    },
+    { new: true },
+    (err, updatedUser) => {
+        if(err) {
+            console.error(err);
+            res.status(500).send('Error: ' + error);
+        } else {
+            res.json(updatedUser);
+        }
+    });
 });
 
 //allow users to remove a movie from their favorite list
-app.delete('/users/:id/FavoriteMovies', (req, res) => {
-    res.send('Successfully DELETED movie ID# ' + req.params.movieID + ' from favorites list.');
+app.delete('/users/:Username/Movies/:MovieID', (req, res) => {
+    Users.findOneAndUpdate({ Username: req.params.Username }, {
+        $pull: { FavoriteMovies: req.params.MovieID }
+    },
+    { new: true },
+    (err, updatedUser) => {
+        if(err) {
+            console.error(err);
+            res.status(500).send('Error: ' + error);
+        } else {
+            res.json(updatedUser);
+        }
+    });
 });
 
 //allow users to deregister
-app.delete('/users/:id', (req, res) => {
-    res.send('Thank you, your account with ID# ' + req.params.id + ' has been removed.')
-})
+app.delete('/users/:Username', (req, res) => {
+    Users.findOneAndRemove({ Username: req.params.Username })
+    .then((user) => {
+        if(!user) {
+            res.status(400).send(req.params.Username + ' was not found.');
+        } else {
+            res.status(200).send(req.params.Username + ' was deleted.');
+        }
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+    });
+});
 
 //middleware error handling always goes LAST in app.use chain
 app.use((err, req, res, next) => {
