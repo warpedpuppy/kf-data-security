@@ -4,16 +4,10 @@ const express = require('express'),
     cors = require('cors'),
     bodyParser = require('body-parser'),
     uuid = require('uuid'),
-
     mongoose = require('mongoose'),
-
     Models = require('./models.js'),
     Users = Models.User,
-    Movies = Models.Movie,
-
-    passport = require('passport'),
-    require('./passport'); //why is this format different, has an error?
-
+    Movies = Models.Movie;
 
 const app = express();
  
@@ -22,7 +16,10 @@ app.use(morgan('common'));
 app.use(cors());
 app.use(bodyParser.json());
 
+//authorization JWT linking:
 let auth = require('./auth')(app); //app argument ensures that Express is available to auth.js file too
+const passport = require('passport');
+require('./passport'); //why is this format different, has an error?
 
 //connects to existing MongoDB database
 mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true});
@@ -88,8 +85,8 @@ app.get('/movies/directors/:Name', passport.authenticate('jwt', { session: false
     });
 });
 
-//allow new users to register
-app.post('/users', passport.authenticate('jwt', { session: false }), (req, res) => {
+//allow new users to register, no authorization here, because anonymous users need to register for the first time!
+app.post('/users', (req, res) => {
     Users.findOne({ Username: req.body.Username})
         .then((user) => {
             if (user) {
