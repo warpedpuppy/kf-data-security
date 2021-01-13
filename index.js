@@ -4,10 +4,15 @@ const express = require('express'),
     cors = require('cors'),
     bodyParser = require('body-parser'),
     uuid = require('uuid'),
+
     mongoose = require('mongoose'),
+
     Models = require('./models.js'),
     Users = Models.User,
-    Movies = Models.Movie;
+    Movies = Models.Movie,
+    
+    passport = require('passport'),
+    require('./passport');
 
 
 const app = express();
@@ -16,6 +21,8 @@ const app = express();
 app.use(morgan('common'));
 app.use(cors());
 app.use(bodyParser.json());
+
+let auth = require('./auth')(app); //app argument ensures that Express is available to auth.js file too
 
 //connects to existing MongoDB database
 mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true});
