@@ -10,6 +10,7 @@ const express = require('express'),
     Movies = Models.Movie;
 
 const app = express();
+const { check, validationResult } = require('express-validator');
  
 //logs all requests using Morgan, prints in terminal.
 app.use(morgan('common'));
@@ -86,7 +87,22 @@ app.get('/movies/directors/:Name', passport.authenticate('jwt', { session: false
 });
 
 //allow new users to register, no authorization here, because anonymous users need to register for the first time!
-app.post('/users', (req, res) => {
+app.post('/users', 
+    [
+        check('Username', 'Username is required').isLength({min:5}),
+        check('Username', 'Username contains non alphanumeric characters - not allowed').isAlphanumeric(),
+        check('Password', 'Password is not required').not().isEmpty(),
+        check('Email', 'Email does not appear to be valid').isEmail()
+    ], (req, res) => {
+
+    //check validation object for errors
+    let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array()});
+    }
+
+    let hashedPassword = Users.hashPassword(req.body.Password);
     Users.findOne({ Username: req.body.Username})
         .then((user) => {
             if (user) {
@@ -95,7 +111,7 @@ app.post('/users', (req, res) => {
                 Users
                     .create({
                         Username: req.body.Username,
-                        Password: req.body.Password,
+                        Password: hashedPassword,
                         Email: req.body.Email,
                         Birthday: req.body.Birthday
                     })
