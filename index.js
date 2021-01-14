@@ -22,8 +22,11 @@ let auth = require('./auth')(app); //app argument ensures that Express is availa
 const passport = require('passport');
 require('./passport'); //why is this format different, has an error?
 
-//connects to existing MongoDB database
-mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true});
+//connects to existing MongoDB database LOCAL
+// mongoose.connect('mongodb://localhost:27017/myFlixDB', { useNewUrlParser: true, useUnifiedTopology: true});
+
+// connects to MongoDB Atlas database
+mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true});
 
 //GET route located at default endpoint / that returns text
 app.get('/', (req, res) => {
