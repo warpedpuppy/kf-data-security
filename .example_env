@@ -1,2 +1,2 @@
 JWT_SECRET=
-LOCAL_DB=
+LOCAL_DB=https://github.com/warpedpuppy/kf-data-security.git

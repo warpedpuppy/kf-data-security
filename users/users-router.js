@@ -5,7 +5,7 @@ const Users = Models.User;
 const passport = require('passport');
 const { check, validationResult } = require('express-validator');
 UsersRouter
-.post('/users', 
+.post('/', 
     [
         check('Username', 'Username is required').isLength({min:5}),
         check('Username', 'Username contains non alphanumeric characters - not allowed').isAlphanumeric(),
@@ -46,7 +46,7 @@ UsersRouter
             res.status(500).send('Error: ' + error);
         });
 })
-.get('/users', passport.authenticate('jwt', { session: false }), (req, res) => {
+.get('/', passport.authenticate('jwt', { session: false }), (req, res) => {
     Users.find()
         .then((users) => {
             res.status(201).json(users);
@@ -56,7 +56,7 @@ UsersRouter
             res.status(500).send('Error: ' + err);
         });
 })
-.get('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
+.get('/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
     Users.findOne({ Username: req.params.Username })
         .then((user) => {
             res.json(user);
@@ -66,7 +66,7 @@ UsersRouter
             res.status(500).send('Error: ' + err);
         });
 })
-.put('/users/:Username', 
+.put('/:Username', 
 [
     check('Username', 'Username is required.').isLength({min:5}),
     check('Username', 'Username contains nonalphanumeric characters - not allowed').isAlphanumeric(),
@@ -100,7 +100,7 @@ UsersRouter
         }
     });
 })
-.post('/users/:Username/FavoriteMovies/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
+.post('/:Username/FavoriteMovies/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
     Users.findOneAndUpdate({ Username: req.params.Username }, {
         $push: { FavoriteMovies: req.params.MovieID }
     },
@@ -114,7 +114,7 @@ UsersRouter
         }   
     });
 })
-.delete('/users/:Username/FavoriteMovies/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
+.delete('/:Username/FavoriteMovies/:MovieID', passport.authenticate('jwt', { session: false }), (req, res) => {
     Users.findOneAndUpdate({ Username: req.params.Username }, {
         $pull: { FavoriteMovies: req.params.MovieID }
     },
@@ -128,7 +128,7 @@ UsersRouter
         }
     });
 })
-.delete('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
+.delete('/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
     Users.findOneAndRemove({ Username: req.params.Username })
     .then((user) => {
         if(!user) {
